@@ -1,0 +1,58 @@
+@model IEnumerable<Team1_FinalProject.Models.Ticket>
+
+@{ ViewData["Title"] = "Shopping Cart"; }
+
+<br />
+<h1>Shopping Cart</h1>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Showing.Movie.Title) 
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Showing.StartDateTime) 
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Showing.Price) 
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeatNumber) 
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Showing.Movie.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Showing.StartDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Showing.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SeatNumber)
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.TicketID">Cancel</a> |
+                <a asp-action="Details" asp-route-id="@item.TicketID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TicketID">Delete</a>
+                <a asp-action="Checkout" asp-controller="Orders">" asp-route-id="@item.TicketID">Checkout</a>
+                @*<a asp-action="Checkout" asp-route-id="@item.Order.OrderNumber">Checkout</a>*@
+            </td>
+</tr>}
+    </tbody>
+
+</table>
+@*include movie title, show time, seats, price per ticket
+    // Button directing to SearchMoviesShowings
+
+// add Checkout button that maps to Orders/Create
+// make a table from Price; refer to HW5 Orders (remember Ticket is like OrderDetails)
+
+    *@

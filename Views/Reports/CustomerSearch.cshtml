@@ -1,0 +1,33 @@
+﻿@model Team1_FinalProject.Models.CustomerReportViewModel
+
+@{
+    ViewData["Title"] = "CustomerSearch";
+}
+
+<h1>Search by Customer</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DisplayCustomerReport">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SelectCustomerID" class="control-label"></label>
+                @Html.DropDownListFor(model => model.SelectedCustomerID, (SelectList)ViewBag.AllCustomers, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+
+        </form>
+        <hr />
+        <h5>OR</h5>
+        <form asp-action="AggregateCustomerReport">
+            <div class="form-group">
+                <input type="submit" value="Create Aggregate Customer Report" class="btn btn-primary" />
+            </div>
+        </form>
+        <hr />
+        <a asp-action="Index">Back to List</a>
+    </div>
+</div>

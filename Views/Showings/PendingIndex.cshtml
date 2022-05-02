@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Team1_FinalProject.Models.Showing>
+
+@{
+    ViewData["Title"] = "PendingIndex";
+}
+
+@{
+    List<List<Showing>> alldays = new List<List<Showing>>();
+    List<Showing> sunday = Model.Where(m => m.StartDateTime.DayOfWeek == DayOfWeek.Sunday).ToList();
+    alldays.Add(sunday);
+    List<Showing> monday = Model.Where(m => m.StartDateTime.DayOfWeek == DayOfWeek.Monday).ToList();
+    alldays.Add(monday);
+    List<Showing> tuesday = Model.Where(m => m.StartDateTime.DayOfWeek == DayOfWeek.Tuesday).ToList();
+    alldays.Add(tuesday);
+    List<Showing> wednesday = Model.Where(m => m.StartDateTime.DayOfWeek == DayOfWeek.Wednesday).ToList();
+    alldays.Add(wednesday);
+    List<Showing> thursday = Model.Where(m => m.StartDateTime.DayOfWeek == DayOfWeek.Thursday).ToList();
+    alldays.Add(thursday);
+    List<Showing> friday = Model.Where(m => m.StartDateTime.DayOfWeek == DayOfWeek.Friday).ToList();
+    alldays.Add(friday);
+    List<Showing> saturday = Model.Where(m => m.StartDateTime.DayOfWeek == DayOfWeek.Saturday).ToList();
+    alldays.Add(saturday);
+    int count = 0;
+}
+
+<h1>Pending Showings</h1>
+<h4>For the week of @ViewBag.Week</h4>
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("Manager"))
+        {
+            <a asp-action="Create">Create New</a> <span>|</span>
+            <a asp-action="PublishWeek">Publish Showings Whole Week</a> <span>|</span>
+            <a asp-action="CopySchedule">Quick Copy</a>
+        }
+    }
+</p>
+@Html.ValidationSummary(true, "", new { @style = "color: red" })
+@foreach (int value in new List<int> { 5, 6, 0, 1, 2, 3, 4 })
+{
+    <h4>@((DayOfWeek)value)</h4>
+    <h6>@ViewBag.AllDates[count].ToString("MM/dd/yyyy")</h6>
+    <a asp-action="PublishDay" asp-route-day="@ViewBag.AllDates[count]">Publish</a> 
+    {
+        count += 1;
+    }
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndDateTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Room)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movie.Title)
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Showing item in alldays[value])
+            {
+                <tr>
+                    <td>
+                        <b>@item.StartDateTime.ToString("MM/dd")</b>
+                    </td>
+                    <td>
+                        <b>@Html.DisplayFor(modelItem => item.StartDateTime)</b>
+                    </td>
+                    <td>
+                        <b>@Html.DisplayFor(modelItem => item.EndDateTime)</b>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Room)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movie.Title)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.ShowingID">Showing Details</a> |
+                        <a asp-action="Details" asp-controller="Movies" asp-route-id="@item.Movie.MovieID">Movie Details</a> |
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <a asp-action="EditPending" asp-route-id="@item.ShowingID">Edit</a> <span> | </span>
+                                <a asp-action="Delete" asp-route-id="@item.ShowingID">Delete</a>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

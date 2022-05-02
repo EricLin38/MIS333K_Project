@@ -1,0 +1,101 @@
+﻿@model Team1_FinalProject.Models.ReportViewModel
+
+@{
+    ViewData["Title"] = "DisplayReport";
+}
+
+<h1>Display Report</h1>
+
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Order Date
+            </th>
+            <th>
+                Movie Title
+            </th>
+            <th>
+                Showing Time
+            </th>
+            <th>
+                MPAA Rating
+            </th>
+            <th>
+                Pre-Tax, Discount Ticket Price
+            </th>
+            <th>
+                Customer Email
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Ticket t in @ViewBag.SummarizedTickets)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => t.Order.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => t.Showing.Movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => t.Showing.StartDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => t.Showing.Movie.MPAA)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => t.Showing.Price.PriceValue)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => t.Order.Customer.Email)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-md-8">
+        <h5>Report Summary</h5>
+
+
+
+        <table class="table table-sm table-bordered" style="width:30%">
+            <tr>
+                <th colspan="8" style="text-align:center">Order Summary</th>
+            </tr>
+            @if (Model.Decision == ReportViewModel.decision.SeatSold)
+            {
+                <tr>
+                    <td>Total Seats Sold:</td>
+                    <td>@Html.DisplayFor(model => model.SeatsSold)</td>
+                </tr>
+            }
+            @if (Model.Decision == ReportViewModel.decision.TotalRevenue)
+            {
+                <tr>
+                    <td>Total Revenue:</td>
+                    <td>@Html.DisplayFor(model => model.TotalRevenue)</td>
+                </tr>
+            }
+            @if (Model.Decision == ReportViewModel.decision.Both)
+            {
+                <tr>
+                    <td>Total Seats Sold:</td>
+                    <td>@Html.DisplayFor(model => model.SeatsSold)</td>
+                </tr>
+                <tr>
+                    <td>Total Revenue:</td>
+                    <td>@Html.DisplayFor(model => model.TotalRevenue)</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Create a New Report</a>
+    <a asp-action="Index" asp-controller="Home">Back to Home</a>
+</div>

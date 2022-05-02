@@ -1,0 +1,170 @@
+@model Team1_FinalProject.Models.Order
+
+@{
+    ViewData["Title"] = "Review";
+}
+
+@* need to show movie title, show time, selected seat, price, subtotal, tax, grand total
+    purchase with popcorn points option
+    purchase as gift option (insert friend's email)*@
+@{
+    int count = 2;
+}
+<br />
+<h1>Review Your Order</h1>
+<form asp-action="Confirmation" method="get">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Movie Title
+                </th>
+                <th>
+                    Starting Time
+                </th>
+                <th>
+                    Seat Number
+                </th>
+                <th>
+                    Price Per Ticket
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Ticket t in Model.Tickets)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => t.Showing.Movie.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => t.Showing.StartDateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => t.SeatNumber)
+                    </td>
+                    <td>
+                        @if (Model.PopcornPointsUsed == false)
+                        {
+                            @Html.DisplayFor(model => t.Showing.Price.PriceValue)
+                            <br />
+                            @if (ViewBag.DiscountTotal != null && count != 0 && t.Showing.SpecialEvent == false)
+                            {
+                                <b style="color:red">@ViewBag.Discount</b>
+                                count -= 1;
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderSubtotal)
+                </th>
+                <th>
+                    Discount:
+                </th>
+                @if (ViewBag.DiscountTax != null)
+                {
+                    <th>
+                        Discount Subtotal:
+                    </th>
+                }
+                <th>
+                    @Html.DisplayNameFor(model => model.Tax)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderTotal)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.PopcornPointsUsed == false)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.OrderSubtotal)
+                    </td>
+                    <td>
+                        @if (count == 0)
+                        {
+                            @ViewBag.DiscountDouble
+                            <br />
+                            @Model.Discount.PriceType
+                        }
+                        else if (count == 1)
+                        {
+                            @ViewBag.Discount
+                            <br />
+                            @Model.Discount.PriceType
+                        }
+                    </td>
+                    @if (ViewBag.DiscountTax != null)
+                    {
+                        <td>
+                            @ViewBag.DiscountDiff
+                        </td>
+                    }
+                    <td>
+                        @if (ViewBag.DiscountTax != null)
+                        {
+                            @ViewBag.DiscountTax
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.Tax)
+                        }
+                    </td>
+                    <td>
+                        @if (ViewBag.DiscountTotal != null)
+                        {
+                            @ViewBag.DiscountTotal
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.OrderTotal)
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+    </table>
+
+    <h5>Review Order Details</h5>
+    <table class="table table-sm table-bordered" style="width:30%">
+        <tr>
+            <th colspan="2" style="text-align:center">Review Order Details</th>
+        </tr>
+        <tr>
+            <td>Popcorn Points Used:</td>
+            <td class="text-right">@Html.DisplayFor(model => model.PopcornPointsUsed)</td>
+        </tr>
+        <tr>
+            <td>Was this a Gift Order?</td>
+            <td class="text-right">@Html.DisplayFor(model => model.GiftOrder)</td>
+        </tr>
+        @if (Model.GiftOrder == true)
+        {
+            <tr>
+                <td>Gift Order Email:</td>
+                <td>@Html.DisplayFor(model => model.GiftEmail)</td>
+            </tr>
+        }
+    </table>
+
+    <input type="hidden" asp-for="OrderID" />
+    <input type="hidden" asp-for="OrderNumber" />
+    <input type="hidden" asp-for="PopcornPointsUsed" />
+    <div class="form-group">
+        <input type="submit" value="Confirm" class="btn btn-primary" />
+    </div>
+</form>
+
+<a asp-action="Index">Back to List</a> |
+<a asp-action="Checkout">Edit Order</a>
+
+

@@ -1,0 +1,33 @@
+@model Team1_FinalProject.Models.Order
+
+@{
+    ViewData["Title"] = "Thank You!";
+}
+@{
+    int tickets = (int)Decimal.Truncate((Model.Customer.PopcornPoints / 100));
+}
+<body class="text-center">
+    <h1>Order #</h1>
+    <h2>@Model.OrderNumber</h2>
+    <h1>Thank you for visiting Main Street Movies!</h1>
+    <h4>A confirmation message was sent to the email on file.</h4>
+    @if (Model.PopcornPointsUsed == false)
+    {
+        <p>You have earned @ViewBag.Earned Popcorn Points.</p>
+    }
+    else
+    {
+        <p>You have used @Model.Tickets.Count() Popcorn Points.</p>
+    }
+    <br />
+    You now have @Model.Customer.PopcornPoints Popcorn Points.
+    @if (Model.Customer.PopcornPoints / 100 >= 1)
+    {
+        <p class="text-center">Next time, you can buy up to: </p> <b class="text-center">@tickets</b> <p class="text-center">tickets!</p>
+    }
+</body>
+<br />
+
+
+<a asp-action="Index" asp-controller="Home" class="btn btn-success">Back to Home</a>
+

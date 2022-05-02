@@ -1,0 +1,168 @@
+﻿@model Team1_FinalProject.Models.TicketViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@*in the GET method for Create in the TicketsController, use if statement to see if they are old enough, otherwise return an Error message*@
+<h1>Create</h1>
+
+<h4>Ticket</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*do drop down list; use SeatClaim as boolean to verify if a seat for the Showing was taken yet.*@
+            @Html.HiddenFor(model => model.SelectShowingID, Model.SelectShowingID)
+            @if (User.IsInRole("Employee") || User.IsInRole("Manager"))
+            {
+                @Html.HiddenFor(model => model.SelectOrderID, Model.SelectOrderID)
+            }
+            <div class="form-group">
+                <label class="control-label">Seats Available:</label>
+                @Html.ListBoxFor(model => model.SelectedSeats, (MultiSelectList)ViewBag.AllSeats, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+
+</div>
+@*<!DOCTYPE html>
+
+    <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <style>
+            .seat {
+                height: 20px;
+                width: 20px;
+                border: 1px solid gray;
+                cursor: pointer;
+                background-color: white;
+            }
+
+            .walk {
+                padding-bottom: 20px;
+            }
+
+            #driver {
+                background-color: gray;
+                height: 20px;
+                width: 100px;
+                border: 1px solid gray;
+                background-color: white;
+            }
+        </style>
+
+
+
+    </head>
+    <body>
+        <form asp-action="Create">
+            <div style="border:1px solid gray; width:130px;" align="center">
+                <table>
+                    <tr>
+                        <td colspan="5" align="center"><div id="driver"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="walk"></td>
+                    </tr>
+                    <tr>
+                        <td><div class="seat" name="A1">A1</div></td>
+                        <td><div class="seat" name="A2">A2</div></td>
+                        <td><div class="seat" name="A3">A3</div></td>
+                        <td><div class="seat" name="A4">A4</div></td>
+                        <td><div class="seat" name="A5">A5</div></td>
+                    </tr>
+                    <tr>
+                        <td class="walk"></td>
+                    </tr>
+                    <tr>
+                        <td><div class="seat" name="B1">B1</div> </td>
+                        <td><div class="seat" name="B2">B2</div></td>
+                        <td><div class="seat" name="B3">B3</div></td>
+                        <td><div class="seat" name="B4">B4</div></td>
+                        <td><div class="seat" name="B5">B5</div></td>
+                    </tr>
+                    <tr>
+                        <td class="walk"></td>
+                    </tr>
+                    <tr>
+                        <td><div class="seat" name="C1">C1</div> </td>
+                        <td><div class="seat" name="C2">C2</div></td>
+                        <td><div class="seat" name="C3">C3</div></td>
+                        <td><div class="seat" name="C4">C4</div></td>
+                        <td><div class="seat" name="C5">C5</div></td>
+                    </tr>
+                    <tr>
+                        <td class="walk"></td>
+                    </tr>
+                    <tr>
+                        <td><div class="seat" name="D1">D1</div> </td>
+                        <td><div class="seat" name="D2">D2</div></td>
+                        <td><div class="seat" name="D3">D3</div></td>
+                        <td><div class="seat" name="D4">D4</div></td>
+                        <td><div class="seat" name="D5">D5</div></td>
+                    </tr>
+                    <tr>
+                        <td class="walk"></td>
+                    </tr>
+                    <tr>
+                        <td><div class="seat" name="E1">E1</div> </td>
+                        <td><div class="seat" name="E2">E2</div></td>
+                        <td><div class="seat" name="E3">E3</div></td>
+                        <td><div class="seat" name="E4">E4</div></td>
+                        <td><div class="seat" name="E5">E5</div></td>
+                    </tr>
+                </table>
+            </div>
+            @Html.Hidden("SeatNumber")
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+            <script>
+                allSeats = document.querySelectorAll('.seat');
+                for (var i = 0; i < allSeats.length; i++) {
+                    var seat = allSeats[i];
+                    seat.addEventListener('click', function () {
+                        $(".seat").click(function () {
+                            $("#SeatNumber").val;($(this).attr("name"));
+                        })
+                        var bgclr = this.style.backgroundColor;
+                        if (bgclr == 'red')
+                            this.style.backgroundColor = 'white'
+                        else
+                            this.style.backgroundColor = 'red'
+                        debugger
+                    }, false);
+                }
+
+            </script>
+
+
+    </body>
+    </html> *@
+
+@*<div>
+        <span id="20" name="A1" class="seat">20</span>
+    </div>
+    <input type="text" id="SeatNumber" />
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+
+    <script type="text/javascript">
+        $(".seat").click(function () {
+            $("#SeatName").val($(this).attr("name"));
+        })
+    </script>*@
+

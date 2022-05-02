@@ -1,0 +1,21 @@
+﻿@model Team1_FinalProject.Models.AppUser
+
+@{
+    ViewData["Title"] = "ConfirmAction";
+}
+
+<body class="text-center">
+    <h1>Confirmation:</h1>
+    @if (Model.EStatus == EmploymentStatus.Hired)
+    {
+        <h2>You have hired </h2>
+    }
+    @if (Model.EStatus == EmploymentStatus.Fired)
+    {
+        <h2>You have fired </h2>
+    }
+    <h2>@Model.Email</h2>
+</body>
+
+<a asp-action="Index" asp-controller="Home" class="btn btn-success">Back to Home</a>
+

@@ -1,0 +1,46 @@
+@model Team1_FinalProject.Models.MovieReview
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+    input[type="radio"] {
+        position: relative;
+        left: 3px;
+        margin-left: 20px;
+    }
+</style>
+
+<h2>Write a New Movie Review!</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label class="control-label"> Select the movie to review</label>
+            @Html.DropDownList("SelectedMovieID", (SelectList)ViewBag.AllMovies, new { @class = "form-control" })
+            <div class="form-group">
+                <label asp-for="MovieRating" class="control-label"></label><br />
+                <input type="radio" class="right" asp-for="MovieRating" value="1" /> 1 
+                <input type="radio" class="radio" asp-for="MovieRating" value="2" /> 2
+                <input type="radio" class="radio" asp-for="MovieRating" value="3" /> 3 
+                <input type="radio" class="radio" asp-for="MovieRating" value="4" /> 4 
+                <input type="radio" class="radio" asp-for="MovieRating" value="5" /> 5 
+                <span asp-validation-for="MovieRating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReviewDescription" class="control-label"></label>
+                <textarea asp-for="ReviewDescription" class="form-control"></textarea>
+                <span asp-validation-for="ReviewDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

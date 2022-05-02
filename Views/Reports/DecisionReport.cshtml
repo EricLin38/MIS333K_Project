@@ -1,0 +1,72 @@
+﻿@model Team1_FinalProject.Models.ReportViewModel
+
+@{
+    ViewData["Title"] = "DecisionReport";
+}
+
+<h1>Generate Report</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DisplayReport">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Decision" class="control-label"></label><br />
+                <input type="radio" class="radio" asp-for="Decision" value="@ReportViewModel.decision.Both" /> Both<br />
+                <input type="radio" class="radio" asp-for="Decision" value="@ReportViewModel.decision.SeatSold" /> Seats Sold<br />
+                <input type="radio" class="radio" asp-for="Decision" value="@ReportViewModel.decision.TotalRevenue" /> Total Revenue<br />
+                <span asp-validation-for="Decision" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MovieTitle" class="control-label"></label>
+                <input asp-for="MovieTitle" class="form-control" />
+                <span asp-validation-for="MovieTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SelectedMPAA" class="control-label"></label><br />
+                <input type="radio" class="radio" asp-for="SelectedMPAA" value="@MPAA.G" /> G<br />
+                <input type="radio" class="radio" asp-for="SelectedMPAA" value="@MPAA.PG" /> PG<br />
+                <input type="radio" class="radio" asp-for="SelectedMPAA" value="@MPAA.PG13" /> PG-13<br />
+                <input type="radio" class="radio" asp-for="SelectedMPAA" value="@MPAA.R" /> R<br />
+                <input type="radio" class="radio" asp-for="SelectedMPAA" value="@MPAA.Unrated" /> Unrated<br />
+                <span asp-validation-for="SelectedMPAA" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <hr class="hr-danger" />
+                <p>Get report for showings in a specified date range</p>
+                <hr class="hr-danger" />
+                <label asp-for="SearchShowingDateStart" class="control-label"></label>
+                <input asp-for="SearchShowingDateStart" class="form-control" />
+                <label asp-for="SearchShowingDateEnd" class="control-label"></label>
+                <input asp-for="SearchShowingDateEnd" class="form-control" />
+                <span asp-validation-for="SearchShowingDateStart" class="text-danger"></span>
+            </div>
+            <hr class="hr-danger" />
+            <div class="form-group">
+                <p>Get report for showings in a specified time range</p>
+                <hr class="hr-danger" />
+                <label asp-for="SearchShowingTimeStart" class="control-label"></label>
+                <input asp-for="SearchShowingTimeStart" class="form-control" />
+                <label asp-for="SearchShowingTimeEnd" class="control-label"></label>
+                <input asp-for="SearchShowingTimeEnd" class="form-control" />
+                <span asp-validation-for="SearchShowingTimeStart" class="text-danger"></span>
+            </div>
+
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="PopcornPoints" />
+                @Html.DisplayNameFor(model => model.PopcornPoints)
+            </label>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <a asp-action="Index">Back to List</a>
+            <br />
+            <br />
+        </form>
+    </div>
+</div>

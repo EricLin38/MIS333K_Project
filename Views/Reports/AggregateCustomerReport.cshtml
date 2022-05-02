@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Team1_FinalProject.Models.CustomerReportViewModel>
+
+@{
+    ViewData["Title"] = "AllCustomers";
+}
+
+<h1>Aggregate Customer Report</h1>
+
+<hr />
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Customer Email
+            </th>
+            <th>
+                Total Seats Sold
+            </th>
+            <th>
+                Popcorn Points Used
+            </th>
+            <th>
+                Total Revenue
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <a asp-action="DisplayCustomerReport" asp-route-id="@item.SelectCustomerName"><td>@Html.DisplayFor(modelitem => item.SelectCustomerName)</td></a>
+            
+
+                <td>@Html.DisplayFor(modelitem => item.SeatsSold)</td>
+            
+
+                <td>@Html.DisplayFor(modelitem => item.PopcornPointsUsed)</td>
+            
+
+                <td>@Html.DisplayFor(modelitem => item.TotalRevenue)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index">Create a New Report</a>
+    <a asp-action="Index" asp-controller="Home">Back to Home</a>
+</div>
+

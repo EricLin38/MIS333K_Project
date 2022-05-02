@@ -1,0 +1,65 @@
+@model Team1_FinalProject.Models.MovieReview
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<style>
+    input[type="radio"] {
+        position: relative;
+        left: 3px;
+        margin-left: 20px;
+    }
+</style>
+
+<h2>Edit My Movie Review for @Html.DisplayFor(model => model.Movie.Title)</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MovieReviewID" />
+            @if (User.IsInRole("Customer"))
+            {
+        <div class="form-group">
+            <label asp-for="MovieRating" class="control-label"></label><br />
+            <input type="radio" class="right" asp-for="MovieRating" value="1" /> 1
+            <input type="radio" class="radio" asp-for="MovieRating" value="2" /> 2
+            <input type="radio" class="radio" asp-for="MovieRating" value="3" /> 3
+            <input type="radio" class="radio" asp-for="MovieRating" value="4" /> 4
+            <input type="radio" class="radio" asp-for="MovieRating" value="5" /> 5
+            <span asp-validation-for="MovieRating" class="text-danger"></span>
+        </div> }
+            else
+            {
+                @Html.HiddenFor(model => model.MovieRating, Model.MovieRating)
+            }
+            <div class="form-group">
+                <label asp-for="ReviewDescription" class="control-label"></label>
+                <textarea asp-for="ReviewDescription" class="form-control"></textarea>
+                <span asp-validation-for="ReviewDescription" class="text-danger"></span>
+            </div>
+            @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
+            {
+        <div class="form-group">
+            <label asp-for="Status" class="control-label"></label><br />
+            <input type="radio" class="radio" asp-for="Status" value="@MRStatus.WIP" /> Under Review<br />
+            <input type="radio" class="radio" asp-for="Status" value="@MRStatus.Accepted" /> Accepted<br />
+            <input type="radio" class="radio" asp-for="Status" value="@MRStatus.Rejected" /> Rejected<br />
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div> }
+                    else
+                    {
+        @Html.HiddenFor(model => model.Status, Model.Status)}
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,64 @@
+﻿@model IndexViewModel
+@{
+    ViewBag.Title = "Change Info";
+}
+
+<h1>@ViewBag.Title.</h1>
+
+<div>
+    <h4>Change your account settings</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>First Name:</dt>
+        <dd>@Model.FirstName</dd>
+
+        <dt>Last Name:</dt>
+        <dd>@Model.LastName</dd>
+
+        <dt>User Name:</dt>
+        <dd>@Model.UserName</dd>
+
+        <dt>Email:</dt>
+        <dd>@Model.Email</dd>
+
+        <dt>Birthday:</dt>
+        <dd>@((Model.Birthdate).ToString("MM/dd/yyyy"))</dd>
+        <dd>
+            [@Html.ActionLink("Change your birthdate", "ChangeBirthdate", new { email = Model.Email })]
+        </dd>
+
+        <dt>Address:</dt>
+        <dd>@Model.Address</dd>
+        <dd>
+            [@Html.ActionLink("Change your address", "ChangeAddress", new { email = Model.Email })]
+        </dd>
+
+        <dt>Phone Number:</dt>
+        <dd>@Model.PhoneNumber</dd>
+        <dd>
+            [@Html.ActionLink("Change your phone number", "ChangePhoneNumber", new { email = Model.Email })]
+        </dd>
+
+        <dt>Password:</dt>
+        <dd>
+            [@Html.ActionLink("Change your password", "ChangePassword")]
+        </dd>
+        @if (User.IsInRole("Customer"))
+        {
+            <dt>Popcorn Points:</dt>
+            <dd>
+                @ViewBag.UserInfo.PopcornPoints
+            </dd>
+        }
+    </dl>
+</div>
+@if (User.IsInRole("Manager") || User.IsInRole("Employee"))
+{
+    <a asp-action="IndexCustomer" asp-controller="Account" class="btn btn-success" asp-route-email="@Model.Email">Customer Master List</a>
+}
+@if (User.IsInRole("Manager"))
+{
+    <a asp-action="IndexEmployee" asp-controller="Account" class="btn btn-success" asp-route-email="@Model.Email">Employee Master List</a>
+    <a asp-action="IndexManager" asp-controller="Account" class="btn btn-success" asp-route-email="@Model.Email">Manager Master List</a>
+}

@@ -1,0 +1,121 @@
+@model Team1_FinalProject.Models.Showing
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<style>
+    input[type="radio"] {
+        position: relative;
+        left: 3px;
+        margin-left: 20px;
+    }
+
+    input[type="checkbox"] {
+        position: relative;
+    }
+
+    label[type="cblabel"] {
+        position: relative;
+        right: 16px;
+    }
+</style>
+
+
+<h1>Edit the Showing for @Model.Movie.Title at @Model.StartDateTime</h1>
+
+<h4>Showing</h4>
+<hr />
+@Html.ValidationSummary(true, "", new { @style = "color: red" })
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="ShowingID" />
+            <b>Schedule for @Model.StartDateTime.Date.ToString("MM/dd"):</b>
+            <hr class="hr-danger" />
+            <div class="form-group">
+                <table class="table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Theatre 1
+                            </th>
+                            <th>
+                                Theatre 2
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                @try
+                                {
+                                    @foreach (Showing s in ViewBag.AllShowings1)
+                                    {
+                                        if (s.ShowingID == Model.ShowingID)
+                                        {
+                                            <div style="color:blue">@s.StartDateTime.TimeOfDay - @s.EndDateTime.TimeOfDay</div>
+                                        }
+                                        else
+                                        {
+                                            <div>@s.StartDateTime.TimeOfDay - @s.EndDateTime.TimeOfDay</div>
+                                        }
+                                    }
+                                }
+                                catch
+                                { }
+                            </td>
+                            <td>
+                                @try
+                                {
+                                    @foreach (Showing s in ViewBag.AllShowings2)
+                                    {
+                                        if (s.ShowingID == Model.ShowingID)
+                                        {
+                                            <div style="color:blue">@s.StartDateTime.TimeOfDay - @s.EndDateTime.TimeOfDay</div>
+                                        }
+                                        else
+                                        {
+                                            <div>@s.StartDateTime.TimeOfDay - @s.EndDateTime.TimeOfDay</div>
+                                        }
+                                    }
+                                }
+                                catch
+                                { }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Movie Title:</label>
+                @Html.Hidden("ShowingMovie", Model.Movie.MovieID)
+                @Html.DisplayFor(model => model.Movie.Title)
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDateTime" class="control-label"></label>
+                <input asp-for="StartDateTime" class="form-control" />
+                <span asp-validation-for="StartDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Room" class="control-label"></label><br />
+                <input type="radio" class="radio" asp-for="Room" value="1" /> Theatre Room 1<br />
+                <input type="radio" class="radio" asp-for="Room" value="2" /> Theatre Room 2<br />
+                <span asp-validation-for="Room" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="SpecialEvent" /> @Html.DisplayNameFor(model => model.SpecialEvent)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

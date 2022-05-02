@@ -1,0 +1,28 @@
+﻿@model Team1_FinalProject.Models.ReportViewModel
+
+@{
+    ViewData["Title"] = "PopcornPointsReport";
+}
+
+<h1>Generate a Report</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DisplayPP">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="PopcornPoints" />
+                @Html.DisplayNameFor(model => model.PopcornPoints)
+            </label>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <a asp-action="Index">Back to List</a>
+            <br />
+            <br />
+        </form>
+    </div>
+</div>
+@*dhafkdhfkjshad*@

@@ -1,0 +1,141 @@
+﻿@model Team1_FinalProject.Models.Order
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+@* need to show movie title, show time, selected seat, price, subtotal, tax, grand total
+    purchase with popcorn points option
+    purchase as gift option (insert friend's email)*@
+
+<style>
+    input[type="radio"] {
+        position: relative;
+        left: 3px;
+        margin-left: 20px;
+    }
+
+    input[type="checkbox"] {
+        position: relative;
+        left: 18px;
+    }
+
+    label[type="cblabel"] {
+        position: relative;
+        right: 18px;
+    }
+</style>
+
+<br />
+<h1>Checkout</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Movie Title
+            </th>
+            <th>
+                Starting Time
+            </th>
+            <th>
+                Seat Number
+            </th>
+            <th>
+                Price Per Ticket
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Ticket t in Model.Tickets)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => t.Showing.Movie.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => t.Showing.StartDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => t.SeatNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => t.FixPrice)
+                    <br />
+                    @Html.DisplayFor(model => t.Showing.Price.PriceType, new { @style = "color:red" })
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Tickets" asp-route-id="@t.TicketID" class="fas fa-pencil-alt btn btn-warning" style="color:white"></a>
+                    <a asp-action="Delete" asp-controller="Tickets" asp-route-id="@t.TicketID" class="fas fa-trash btn btn-danger" style="color:white"></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+Note: These calculations do not include order discounts yet. That will be presented on the review page.
+<form asp-action="Review">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderSubtotal)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tax)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderTotal)
+                </th>
+                <th style="text-align:center">
+                    @Html.DisplayNameFor(model => model.PopcornPointsUsed)
+                </th>
+                <th style="text-align:center">
+                    @Html.DisplayNameFor(model => model.GiftOrder)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.OrderSubtotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Tax)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.OrderTotal)
+                </td>
+                <td style="text-align:center">
+                    @Html.CheckBoxFor(o => o.PopcornPointsUsed, new { @checked = Model.PopcornPointsUsed })
+                    <br />
+                    You have <b>@Model.Customer.PopcornPoints</b>; this can cover an order of <b>@(Model.Customer.PopcornPoints/100)</b> tickets.
+                </td>
+                <td style="text-align:center">
+                    @Html.CheckBoxFor(o => o.GiftOrder, new { @checked = Model.GiftOrder })
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="OrderID" />
+    <div class="form-group">
+        <label asp-for="GiftEmail" class="control-label"></label>
+        <input asp-for="GiftEmail" class="form-control" />
+        <span asp-validation-for="GiftEmail" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <asp:TextBox ID="GiftEmail" ReadOnly="true" runat="server"></asp:TextBox>
+        <asp:CheckBox ID="GiftOrder" runat="server"
+                      OnCheckedChanged="CheckInstance_CheckedChanged" AutoPostBack="true" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Review" class="btn btn-primary" />
+    </div>
+</form>
+
+<a asp-action="Edit" asp-route-id="@Model.OrderID">Edit</a> |
+<a asp-action="Index">Back to List</a>

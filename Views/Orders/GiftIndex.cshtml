@@ -1,0 +1,60 @@
+﻿
+@model IEnumerable<Team1_FinalProject.Models.Order>
+
+@{ ViewData["Title"] = "Gift Order History"; }
+<style>
+    input[type="radio"] {
+        position: relative;
+        left: 10px;
+        margin-left: 20px;
+    }
+</style>
+<h1>Gift Order History</h1>
+
+<table class="table">
+    <thead>
+        <tr style="text-align:center">
+            <th>
+                @Html.DisplayNameFor(model => model.OrderID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PopcornPointsUsed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHistory)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="text-align:center">
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PostDiscount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PopcornPointsUsed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderHistory)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.OrderID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

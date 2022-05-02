@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Main Street Movies</title>
+    <link rel="stylesheet" href="~/lib/bootstrap.min.css" />
+    @*<link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />*@
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+</head>
+<body>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="nav-content">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index" class="nav-link"><i class="fas fa-film fa-lg"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="SearchSelect" class="nav-link">Search Movies/Showings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Movies" asp-action="Index" class="nav-link">Movies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="Showings" asp-action="Index" class="nav-link">Showings</a>
+                    </li>
+                    @if (User.Identity.IsAuthenticated || User.IsInRole("FiredEmployee") == false)
+                    {
+                        @if (User.IsInRole("Customer"))
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="MovieReviews" asp-action="Index" class="nav-link">My Movie Reviews</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Orders" asp-action="Index" class="nav-link">My Orders</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="MovieReviews" asp-action="Index" class="nav-link">Movie Reviews</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Orders" asp-action="Index" class="nav-link">Orders</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Account" asp-action="Register" class="nav-link">Register For Users</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Manager"))
+                        {
+                            <li>
+                                <a asp-controller="Showings" asp-action="PendingIndex" class="nav-link">Schedule</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Prices" asp-action="Index" class="nav-link">Prices</a>
+                            </li>
+                            <li>
+                                <a asp-controller="RoleAdmin" asp-action="Index" class="nav-link">Manage Users</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Reports" asp-action="Index" class="nav-link">Reports</a>
+                            </li>
+                        }
+                    }
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a asp-controller="Orders" asp-action="Checkout" class="nav-link"><span class="fas fa-shopping-cart"></span> Shopping Cart</a>
+                    </li>
+                </ul>
+            </div>
+            @await Html.PartialAsync("_LoginPartial")
+        </nav>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/popper.js/popper.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

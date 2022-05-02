@@ -1,0 +1,67 @@
+@model Team1_FinalProject.Models.Showing
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+    input[type="radio"] {
+        position: relative;
+        left: 3px;
+        margin-left: 20px;
+    }
+
+    input[type="checkbox"] {
+        position: relative;
+    }
+
+    label[type="cblabel"] {
+        position: relative;
+        right: 16px;
+    }
+</style>
+
+<h1>Create</h1>
+
+<h4>Showing</h4>
+<hr />
+@Html.ValidationSummary(true, "", new { @style = "color: red" })
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div class="form-group">
+                <label class="control-label">Movie Title:</label>
+                @Html.DropDownList("SelectedMovie", (MultiSelectList)ViewBag.AllMovies, new { @class = "form-control", required = "required" })
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDateTime" class="control-label"></label>
+                @Html.DropDownList("SelectedDate", (MultiSelectList)ViewBag.NextWeekDays, new { @class = "form-control", required = "required" })
+                <span asp-validation-for="StartDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDateTime" class="control-label"></label>
+                <input type="time" asp-for="StartDateTime" class="form-control" />
+                <span asp-validation-for="StartDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Room" class="control-label"></label><br />
+                <input type="radio" class="radio" asp-for="Room" value="1" /> Theatre Room 1<br />
+                <input type="radio" class="radio" asp-for="Room" value="2" /> Theatre Room 2<br />
+                <span asp-validation-for="Room" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label type="cblabel" class="form-check-label">
+                    <input type="checkbox" class="form-check-input" asp-for="SpecialEvent" /> @Html.DisplayNameFor(model => model.SpecialEvent)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

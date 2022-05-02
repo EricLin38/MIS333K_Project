@@ -1,0 +1,89 @@
+@model Team1_FinalProject.Models.Showing
+
+@{
+    ViewData["Title"] = "Details";
+}
+}
+<style>
+    input[type="checkbox"] {
+        position: relative;
+        left: 3px;
+        margin-left: 20px;
+    }
+</style>
+<h1>Details</h1>
+
+<div>
+    <h4>Showing</h4>
+    <hr />
+    <dl class="row">
+        @if (User.IsInRole("Manager"))
+        {
+            <dt class="col-sm-2">
+                Status
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Status
+            </dd>
+        }
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDateTime):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StartDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDateTime):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EndDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Title):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Room):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Room)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SpecialEvent)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SpecialEvent)
+        </dd>
+        <dt class="col-sm-2">
+            Tickets Available:
+        </dt>
+        <dd class="col-sm-10">
+            @(20 - Model.Tickets.Where(t => t.Order.OrderHistory != OrderHistory.Cancelled).Count())/20
+        </dd>
+        <dt class="col-sm-2">
+            Ticket Price:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price.PriceValue)
+        </dd>
+        @if (User.Identity.IsAuthenticated)
+        {
+            @if (User.IsInRole("Customer"))
+            {
+                <a asp-action="Create" asp-controller="Tickets" asp-route-showingID="@Model.ShowingID" class="btn btn-primary col-sm-2">Purchase Tickets</a>
+            }
+            else
+            {
+                <a asp-action="CreateFor" asp-controller="Tickets" asp-route-showingID="@Model.ShowingID" class="btn btn-primary col-sm-2">Purchase Tickets For a Customer</a>
+            }
+        }
+    </dl>
+</div>
+<div>
+    @*TODO: Connect showings to tickets, is there a connection to movies?*@
+    @*<a asp-action="Create" asp-controller="Tickets" asp-route-id="@item.Ticket.TicketID">Add to Cart</a>  |*@
+    <a asp-action="Edit" asp-route-id="@Model.ShowingID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

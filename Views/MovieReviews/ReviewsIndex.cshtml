@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Team1_FinalProject.Models.MovieReview>
+
+@{
+    ViewData["Title"] = "Reviews Index";
+}
+
+<h1>Movie Reviews for @ViewBag.MovieTitle</h1>
+
+<table class="table">
+    <thead>
+        <tr style="text-align:center">
+            <th>
+                @Html.DisplayNameFor(model => model.MovieRating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewDescription)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="text-align:center">
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieRating)/5
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewDescription)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

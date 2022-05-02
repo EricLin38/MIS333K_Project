@@ -1,0 +1,35 @@
+﻿@model Team1_FinalProject.Models.CustomerReportViewModel
+@{
+    ViewData["Title"] = "ManageEmployees";
+}
+
+<h1>Manage Employees</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="FireEmployeesIndex">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SelectCustomerID" class="control-label"></label>
+                @Html.DropDownListFor(model => model.SelectedCustomerID, (SelectList)ViewBag.AllEmployees, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Fire the Employee" class="btn btn-primary" />
+            </div>
+        </form>
+
+        <form asp-action="ReHireEmployeesIndex">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SelectCustomerID" class="control-label"></label>
+                @Html.DropDownListFor(model => model.SelectedCustomerID, (SelectList)ViewBag.FiredEmployees, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ReHire the Employee" class="btn btn-primary" />
+            </div>
+        </form>
+
+    </div>
+    <a asp-action="Register" asp-controller="Account">Hire a New Employee</a>
+</div>
