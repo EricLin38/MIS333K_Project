@@ -1,0 +1,30 @@
+﻿@model Team1_FinalProject.Models.CreateForViewModel
+
+@{
+    ViewData["Title"] = "Create Tickets For Customer";
+}
+
+<h1>Select Customer</h1>
+
+<h4>Select the customer you are creating tickets for.</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateFor">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.SelectShowingID, Model.SelectShowingID)
+        <div class="form-group">
+            <label asp-for="SelectCustomerID" class="control-label"></label>
+            @Html.DropDownListFor(model => model.SelectedCustomerID, (SelectList)ViewBag.AllCustomers, new { @class = "form-control" })
+        </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Register" asp-controller="Account">Create a New Customer Account</a> | 
+    <a asp-action="Index">Back to List</a>
+</div>

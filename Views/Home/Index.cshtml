@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Team1_FinalProject.Models.Showing>
+
+@{
+    ViewData["Title"] = "Main Street Movies Home";
+}
+
+<h1 class="text-center">Welcome to the Main Street Movies!</h1>
+
+<p class="text-center">
+    <a asp-action="Index" asp-controller="Showings" class="btn btn-success">View Our Showings</a>
+    <a asp-action="SearchSelect" asp-controller="Home" class="btn btn-primary">Search for Movies</a>
+    <br />
+    <hr class="hr-danger" />
+    <h2 class="text-center">Today's Showings</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>Movie Title</th>
+            <th>Showing Time</th>
+            <th>Tickets Available</th>
+            @if (User.Identity.IsAuthenticated)
+            {
+                    <th>Purchase Ticket</th>
+            }
+        </tr>
+        @if (Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="4">None today!</td>
+            </tr>
+        }
+        @foreach (Showing s in Model)
+        {
+            if (s.StartDateTime.Date == DateTime.Now.Date)
+            {
+            <tr>
+                <td>@s.Movie.Title</td>
+                <td>@(s.StartDateTime.ToString("MM/dd hh:mm tt"))<span>-</span>@(s.EndDateTime.ToString("hh:mm tt"))</td>
+                <td>@(20 - s.Tickets.Where(t => t.Order.OrderHistory != OrderHistory.Cancelled).Count())/20</td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (s.StartDateTime.TimeOfDay >= DateTime.Now.TimeOfDay)
+                    {
+                        @if (User.IsInRole("Customer"))
+                        {
+                            <td><a asp-action="Create" asp-controller="Tickets" asp-route-showingID="@s.ShowingID" class="btn btn-primary">Purchase Tickets</a></td>
+                        }
+
+                        @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
+                        {
+                            <td><a asp-action="CreateFor" asp-controller="Tickets" asp-route-showingID="@s.ShowingID" class="btn btn-primary">Purchase Tickets for a Customer</a></td>
+                        }
+                    }
+
+                    else
+                    {
+                        <td><span>Showing ended today.</span></td>
+                    }
+                }
+            </tr>
+            }
+        }
+    </table>
+</p>
+
